@@ -1,0 +1,27 @@
+{
+  "name": "odin-reporting",
+  "version": "1.0.0",
+  "description": "types and utils for generating reports in odin automator",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "your",
+    "keywords"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
