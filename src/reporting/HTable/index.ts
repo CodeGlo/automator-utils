@@ -373,11 +373,9 @@ export class HTableConfigBuilder {
 
   addRows(
     category: HierarchyNodeBuilder,
-    idPrefix: string,
     rows: RowData["columnData"][]
   ): HTableConfigBuilder {
-    const categoryId =
-      typeof category === "string" ? category : category.getId();
+    const categoryId = category.getId();
 
     if (!this._hierarchy.has(categoryId)) {
       console.error(`Category ${categoryId} does not exist in hierarchy`);
@@ -386,7 +384,7 @@ export class HTableConfigBuilder {
 
     rows.forEach((columnData, index) => {
       this._data.push({
-        rowId: `${idPrefix}_${this._rowIdCounter++}`,
+        rowId: `${categoryId}_${this._rowIdCounter++}`,
         categoryId,
         columnData,
       });
@@ -442,3 +440,52 @@ export class OdinHTableConfigBuilder extends HTableConfigBuilder {
       .addStyle("lineHeight", "1.3");
   }
 }
+
+// Example usage:
+// const example = () => {
+//   const builder = new OdinHTableConfigBuilder();
+
+//   // Configure columns
+//   builder.getColumnsConfig()
+//     .addColumn(new ColumnBuilder("Name", 1).setAlignment("left").setContentAlignment("left"))
+//     .addColumn(new ColumnBuilder("Price", 2).setAlignment("center"))
+//     .addColumn(new ColumnBuilder("Status", 3))
+//     .addColumn(new ColumnBuilder("Description", 4).setContentAlignment("left"))
+//     .addColumn(new ColumnBuilder("Quantity", 5));
+
+//   // Create hierarchy
+//   const books = builder.createHierarchyNode("books", "Books", "560");
+//   const fiction = books.createChild("fiction", "Fiction", "350");
+//   const nonfiction = books.createChild("nonfiction", "NonFiction", "210");
+
+//   // Add rows to Fiction category
+//   builder.addRows(fiction, [
+//     {
+//       Name: "The Silent Echo",
+//       Price: "$14.99",
+//       Status: "In Stock",
+//       Description: "Gripping mystery novel that launches an exciting new series.",
+//       Quantity: "200"
+//     },
+//     {
+//       Name: "Summer Hearts",
+//       Price: "$12.99",
+//       Status: "In Stock",
+//       Description: "Contemporary romance paperback with exclusive bonus content.",
+//       Quantity: "150"
+//     }
+//   ]);
+
+//   // Add rows to NonFiction category
+//   builder.addRows(nonfiction, [
+//     {
+//       Name: "Smart Money Moves",
+//       Price: "$24.99",
+//       Status: "In Stock",
+//       Description: "Definitive guide to personal finance and investment strategies.",
+//       Quantity: "120"
+//     }
+//   ]);
+
+//   return builder.build();
+// };
