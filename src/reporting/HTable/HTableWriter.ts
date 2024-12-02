@@ -1,11 +1,11 @@
-import { HTableConfig, HTableProps, HierarchyNode } from "./HTable";
+import { HTableConfig, HTableProps, HierarchyNode } from ".";
 
 export const writeCategoryGroup = (
   categoryGroupStyle: HTableProps["categoryGroupStyle"] = {},
   depth: number,
   left: string,
   right: string,
-  columnConfig: HTableProps["columnConfig"]
+  columnConfig: HTableProps["columnsConfig"]
 ): string => {
   // Convert style object to CSS string
   const styleString = Object.entries(categoryGroupStyle)
@@ -41,7 +41,7 @@ export const writeCategoryGroup = (
 
 export const writeRow = (
   rowStyle: HTableProps["rowStyle"] = {},
-  columnConfig: HTableProps["columnConfig"],
+  columnConfig: HTableProps["columnsConfig"],
   columnData: { [columnName: string]: string },
   depth: number
 ): string => {
@@ -90,7 +90,7 @@ export const writeTable = (
   const categoryRows = rowData.filter((row) => row.categoryId === categoryName);
   const rows = categoryRows
     .map((row) =>
-      writeRow(props.rowStyle, props.columnConfig, row.columnData, depth)
+      writeRow(props.rowStyle, props.columnsConfig, row.columnData, depth)
     )
     .join("\n");
 
@@ -100,7 +100,7 @@ export const writeTable = (
         <thead>
           <tr style="${headerStyleString}">
             <th style="width: ${indentWidth}px; padding: 12px 8px;"></th>
-            ${props.columnConfig
+            ${props.columnsConfig
               .sort((a, b) => a.colOrder - b.colOrder)
               .map((col) => {
                 const width = col.colSpan
@@ -142,7 +142,27 @@ export const WriteReport = (config: HTableConfig): string => {
       },
     ];
 
-    // If this category has children, process them recursively
+    // Check if this category has any associated row data
+    const hasRowData = rowData.some((row) => row.categoryId === categoryName);
+
+    if (hasRowData) {
+      // Write all hierarchy levels first
+      for (const pathItem of currentPath) {
+        output.push(
+          writeCategoryGroup(
+            props.categoryGroupStyle,
+            pathItem.depth,
+            pathItem.left,
+            pathItem.right,
+            props.columnsConfig
+          )
+        );
+      }
+      // Then render the table
+      output.push(writeTable(props, depth, categoryName, rowData));
+    }
+
+    // Process children regardless of whether current node had data
     if (category.children) {
       // Sort children alphabetically
       const sortedChildren = Object.entries(category.children).sort(
@@ -153,21 +173,6 @@ export const WriteReport = (config: HTableConfig): string => {
       for (const [childId, childNode] of sortedChildren) {
         processCategory(childId, childNode, depth + 1, output, currentPath);
       }
-    } else {
-      // This is a leaf node - write all hierarchy levels first
-      for (const pathItem of currentPath) {
-        output.push(
-          writeCategoryGroup(
-            props.categoryGroupStyle,
-            pathItem.depth,
-            pathItem.left,
-            pathItem.right,
-            props.columnConfig
-          )
-        );
-      }
-      // Then render the table
-      output.push(writeTable(props, depth, categoryName, rowData));
     }
 
     return output;

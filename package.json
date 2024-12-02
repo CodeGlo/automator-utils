@@ -1,5 +1,5 @@
 {
-  "name": "odin-reporting",
+  "name": "odin-util",
   "version": "1.0.0",
   "description": "types and utils for generating reports in odin automator",
   "main": "dist/index.js",

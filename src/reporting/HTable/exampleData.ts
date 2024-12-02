@@ -1,4 +1,4 @@
-import { HTableConfig } from "./HTable";
+import { HTableConfig } from ".";
 
 // Example object conforming to HTableConfig
 export const exampleHTableConfig: HTableConfig = {
@@ -20,7 +20,7 @@ export const exampleHTableConfig: HTableConfig = {
       borderBottom: "none",
       lineHeight: "1.3",
     },
-    columnConfig: [
+    columnsConfig: [
       {
         name: "Name",
         colSpan: 2,
@@ -59,75 +59,91 @@ export const exampleHTableConfig: HTableConfig = {
   },
   data: {
     hierarchy: {
-      Electronics: {
-        left: "Electronics",
+      ELECTRONICS: {
+        id: "ELECTRONICS",
+        left: "ELECTRONICS",
         right: "200", // Sum of computer and phone quantities (25+15+45+35+50+30)
         children: {
           COMPUTERS: {
+            id: "COMPUTERS",
             left: "Computers",
             right: "120", // Sum of laptop and desktop quantities
             children: {
               LAPTOPS: {
+                id: "LAPTOPS",
                 left: "Laptops",
                 right: "40", // Sum of quantities (25+15)
               },
               DESKTOPS: {
+                id: "DESKTOPS",
                 left: "Desktops",
                 right: "80", // Sum of quantities (45+35)
               },
             },
           },
           PHONES: {
+            id: "PHONES",
             left: "Phones",
             right: "80", // Sum of quantities (50+30)
           },
         },
       },
       Clothing: {
+        id: "Clothing",
         left: "Clothing",
         right: "350", // Sum of shirts, pants, shoes quantities (100+75+60+45+40+30)
         children: {
           SHIRTS: {
+            id: "SHIRTS",
             left: "Shirts",
             right: "175", // Sum of quantities (100+75)
           },
           PANTS: {
+            id: "PANTS",
             left: "Pants",
             right: "105", // Sum of quantities (60+45)
           },
           SHOES: {
+            id: "SHOES",
             left: "Shoes",
             right: "70", // Sum of quantities (40+30)
           },
         },
       },
       Books: {
+        id: "Books",
         left: "Books",
         right: "560", // Sum of fiction and nonfiction quantities (200+150+120+90)
         children: {
           FICTION: {
+            id: "FICTION",
             left: "Fiction",
             right: "350", // Sum of quantities (200+150)
           },
           NONFICTION: {
+            id: "NONFICTION",
             left: "NonFiction",
             right: "210", // Sum of quantities (120+90)
           },
         },
       },
       Food: {
+        id: "Food",
         left: "Food",
         right: "2500", // Sum of fruits, vegetables, grains quantities (500+400+600+450+300+250)
         children: {
           FRUITS: {
+            id: "FRUITS",
             left: "Fruits",
             right: "900", // Sum of quantities (500+400)
           },
           VEGETABLES: {
+            id: "VEGETABLES",
             left: "Vegetables",
             right: "1050", // Sum of quantities (600+450)
           },
           GRAINS: {
+            id: "GRAINS",
             left: "Grains",
             right: "550", // Sum of quantities (300+250)
           },
@@ -169,6 +185,18 @@ export const exampleHTableConfig: HTableConfig = {
           Status: "In Stock",
           Description:
             "Professional-grade laptop engineered for demanding workloads. Features dedicated graphics processing and substantial memory allocation, making it ideal for content creation and gaming applications.",
+        },
+      },
+      {
+        rowId: "e1",
+        categoryId: "ELECTRONICS",
+        columnData: {
+          Name: "MacBook Pro 16",
+          Price: "$1499",
+          Quantity: "15",
+          Status: "In Stock",
+          Description:
+            "<ul style='padding-left: 0; margin-left: 16px'><li>Premium ultrabook with 4K display</li><li>Intel i9 processor</li><li>Dual Thunderbolt ports</li><li>Integrated fingerprint security</li><li>Machined aluminum chassis</li></ul>",
         },
       },
       {
