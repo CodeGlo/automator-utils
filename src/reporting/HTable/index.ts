@@ -1,3 +1,5 @@
+import { writeHTable } from "./HTableWriter";
+
 export type HTableProps = {
   categoryGroupStyle?: {
     [key: string]: string | number;
@@ -413,6 +415,11 @@ export class HTableConfigBuilder {
       },
     };
   }
+
+  toHTML(): string {
+    const config = this.build();
+    return writeHTable(config);
+  }
 }
 
 export class OdinHTableConfigBuilder extends HTableConfigBuilder {
@@ -487,5 +494,6 @@ export class OdinHTableConfigBuilder extends HTableConfigBuilder {
 //     }
 //   ]);
 
-//   return builder.build();
+//   builder.build();
+//   builder.toHTML();
 // };

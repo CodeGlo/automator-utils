@@ -120,7 +120,7 @@ export const writeTable = (
   `;
 };
 
-export const WriteReport = (config: HTableConfig): string => {
+export const writeHTable = (config: HTableConfig): string => {
   const { props, data } = config;
   const { hierarchy, data: rowData } = data;
 

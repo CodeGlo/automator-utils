@@ -11,11 +11,10 @@ The HTable is used to generate hierarchical tables like this:
 #### Example HTable Code:
 
 ```typescript
-const builder = new OdinHTableConfigBuilder();
+const HTable = new OdinHTableConfigBuilder();
 
 // Configure columns
-builder
-  .getColumnsConfig()
+HTable.getColumnsConfig()
   .addColumn(
     new ColumnBuilder("Name", 1)
       .setAlignment("left")
@@ -27,12 +26,12 @@ builder
   .addColumn(new ColumnBuilder("Quantity", 5));
 
 // Create hierarchy
-const books = builder.createHierarchyNode("books", "Books", "560");
+const books = HTable.createHierarchyNode("books", "Books", "560");
 const fiction = books.createChild("fiction", "Fiction", "350");
 const nonfiction = books.createChild("nonfiction", "NonFiction", "210");
 
 // Add rows to Fiction category
-builder.addRows(fiction, [
+HTable.addRows(fiction, [
   {
     Name: "The Silent Echo",
     Price: "$14.99",
@@ -50,7 +49,7 @@ builder.addRows(fiction, [
 ]);
 
 // Add rows to NonFiction category
-builder.addRows(nonfiction, [
+HTable.addRows(nonfiction, [
   {
     Name: "Smart Money Moves",
     Price: "$24.99",
@@ -61,5 +60,6 @@ builder.addRows(nonfiction, [
   },
 ]);
 
-return builder.build(); // returns the HTML string
+const config = HTable.build(); // returns the configuration object
+const html = htable.toHTML(); // returns the HTML string
 ```

@@ -1,4 +1,4 @@
-import { WriteReport } from "./HTableWriter";
+import { writeHTable } from "./HTableWriter";
 import { exampleHTableConfig } from "./exampleData";
 
 // Main function to test the report generation
@@ -6,7 +6,7 @@ const main = () => {
   const fs = require("fs");
 
   // Generate the report HTML
-  const reportHtml = WriteReport(exampleHTableConfig);
+  const reportHtml = writeHTable(exampleHTableConfig);
 
   // Write to file
   fs.writeFileSync("testoutput.html", reportHtml);
