@@ -133,7 +133,7 @@ export class HierarchyNodeBuilder {
   }
 }
 
-class CategoryGroupStyleBuilder {
+export class CategoryGroupStyleBuilder {
   private _styles: Map<string, string> = new Map();
 
   setStyle(key: string, value: string): CategoryGroupStyleBuilder {
@@ -162,7 +162,7 @@ class CategoryGroupStyleBuilder {
   }
 }
 
-class HeaderStyleBuilder {
+export class HeaderStyleBuilder {
   private _styles: Map<string, string> = new Map();
 
   setStyle(key: string, value: string): HeaderStyleBuilder {
@@ -192,7 +192,7 @@ class HeaderStyleBuilder {
   }
 }
 
-class RowStyleBuilder {
+export class RowStyleBuilder {
   private _styles: Map<string, string> = new Map();
 
   setStyle(key: string, value: string): RowStyleBuilder {
@@ -222,7 +222,7 @@ class RowStyleBuilder {
   }
 }
 
-class ColumnBuilder {
+export class ColumnBuilder {
   private _name: string;
   private _colSpan?: number;
   private _colOrder: number;
@@ -296,7 +296,7 @@ class ColumnBuilder {
   }
 }
 
-class ColumnsConfigBuilder {
+export class ColumnsConfigBuilder {
   private _columns: ColumnBuilder[] = [];
 
   addColumn(column: ColumnBuilder): ColumnsConfigBuilder {
@@ -380,8 +380,17 @@ export class HTableConfigBuilder {
     const categoryId = category.getId();
 
     if (!this._hierarchy.has(categoryId)) {
-      console.error(`Category ${categoryId} does not exist in hierarchy`);
-      throw new Error(`Category ${categoryId} does not exist in hierarchy`);
+      let inHierarchy = false;
+      this._hierarchy.forEach((builder) => {
+        if (builder.hasId(categoryId)) {
+          inHierarchy = true;
+        }
+      });
+
+      if (!inHierarchy) {
+        console.error(`Category ${categoryId} does not exist in hierarchy`);
+        throw new Error(`Category ${categoryId} does not exist in hierarchy`);
+      }
     }
 
     rows.forEach((columnData, index) => {
